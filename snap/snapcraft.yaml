@@ -1,19 +1,25 @@
 name: turtlebot-demo-kyrofa
-version: '0.1'
+version: '0.2'
 summary: Turtlebot ROS Demo
 description: |
   Demo of Turtlebot randomly walking around, avoiding obstacles and cliffs.
 
+# Using strict confinement here, but that only works if installed on an image
+# that exposes /dev/serial-port-kobuki via the gadget snap.
+confinement: strict
 grade: stable
-confinement: devmode
 
 # Workaround for LP: #1677002.
 build-packages: [lsb-release]
 
+plugs:
+  kobuki:
+    interface: serial-port
+
 apps:
   system:
-    command: roslaunch prototype prototype.launch --screen
-    plugs: [network, network-bind]
+    command: roslaunch prototype prototype.launch device_port:=/dev/serial-port-kobuki --screen
+    plugs: [network, network-bind, kobuki]
     daemon: simple
 
 parts:
