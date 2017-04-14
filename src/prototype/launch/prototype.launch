@@ -1,0 +1,24 @@
+<launch>
+	<!-- Make the device port configurable.  -->
+	<arg name="device_port" default="/dev/kobuki"/>
+
+	<!-- Nodelet manager for the Kobuki driver as well as the safe walker. -->
+	<node pkg="nodelet" type="nodelet" name="mobile_base_nodelet_manager"
+	      args="manager"/>
+
+	<!-- The ROS wrapper for the Kobuki driver. -->
+	<node pkg="nodelet" type="nodelet" name="mobile_base"
+	      args="load kobuki_node/KobukiNodelet mobile_base_nodelet_manager">
+		<rosparam file="$(find kobuki_node)/param/base.yaml" command="load"/>
+		<param name="device_port" value="$(arg device_port)"/>
+		<remap from="mobile_base/odom" to="odom"/>
+		<remap from="mobile_base/joint_states" to="joint_states"/>
+	</node>
+
+	<!--
+		The safe random walker launch file that causes the robot to
+		wander while trying not to destroy itself by utilizing the
+		bumper sensors as well as the cliff sensors.
+	-->
+	<include file="$(find kobuki_random_walker)/launch/safe_random_walker_app.launch" />
+</launch>

@@ -1,0 +1,23 @@
+name: turtlebot-demo-kyrofa
+version: '0.1'
+summary: Turtlebot ROS Demo
+description: |
+  Demo of Turtlebot randomly walking around, avoiding obstacles and cliffs.
+
+grade: stable
+confinement: devmode
+
+# Workaround for LP: #1677002.
+build-packages: [lsb-release]
+
+apps:
+  system:
+    command: roslaunch prototype prototype.launch --screen
+    plugs: [network, network-bind]
+    daemon: simple
+
+parts:
+  prototype-workspace:
+    plugin: catkin
+    rosdistro: kinetic
+    catkin-packages: [prototype]

@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package>
+  <name>prototype</name>
+  <version>0.0.0</version>
+  <description>Contains launch files for system</description>
+  <maintainer email="me@example.com">me</maintainer>
+  <license>TODO</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <!-- Driver for kobuki base -->
+  <run_depend>kobuki_node</run_depend>
+
+  <!-- Safe random walker -->
+  <run_depend>kobuki_random_walker</run_depend>
+</package>
